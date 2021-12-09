@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -70,5 +71,19 @@ class UserController extends Controller
 
         $message = ['success' => 'User has been created successfully'];
         return response()->json($message, 201);
+    }
+
+    public function addPermissionRoles(Request $request, $id){
+
+        $validator = Validator::make($request->all(),[
+            'name' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors());
+        }
+        $role = Role::findOrFail($id);
+            $role->givePermissionTo($request->name);
+            return response()->json($role);
     }
 }

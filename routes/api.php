@@ -41,6 +41,7 @@ Route::prefix('admin')->group(function(){
     //Role route
     Route::get('/roles', [RolesController::class, 'index'])->name('roles')->middleware(['auth:admin-api','scopes:admin'])->name('roles');
     Route::post('/create-role', [RolesController::class, 'createRoles'])->name('roles')->middleware(['auth:admin-api','scopes:admin'])->name('create-role');
+    Route::post('/assign-role/{id}', [UserController::class, 'addPermissionRoles'])->name('assign-role')->middleware(['auth:admin-api','scopes:admin'])->name('assign-role');
 
     //Permission route
     Route::post('/create-perm', [permissions::class, 'createPermission'])->name('create-perm')->middleware(['auth:admin-api','scopes:admin'])->name('create-perm');
